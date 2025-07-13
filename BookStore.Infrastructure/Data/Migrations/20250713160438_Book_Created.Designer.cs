@@ -3,6 +3,7 @@ using BookStore.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookStore.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250713160438_Book_Created")]
+    partial class Book_Created
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -74,68 +77,6 @@ namespace BookStore.Infrastructure.Data.Migrations
                     b.ToTable("Books", t =>
                         {
                             t.HasComment("Book");
-                        });
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Author = "J.R.R. Tolkien",
-                            Description = "A fantasy adventure about a hobbit's journey to reclaim treasure guarded by a dragon.",
-                            GenreId = 1,
-                            ISBN = "9780261102217",
-                            Price = 20.00m,
-                            Title = "The Hobbit"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Author = "Michelle Obama",
-                            Description = "A memoir by the former First Lady of the United States.",
-                            GenreId = 2,
-                            ISBN = "9781524763138",
-                            Price = 25.00m,
-                            Title = "Becoming"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Author = "Yuval Noah Harari",
-                            Description = "A brief history of humankind from ancient times to the modern age.",
-                            GenreId = 3,
-                            ISBN = "9780062316097",
-                            Price = 20.00m,
-                            Title = "Sapiens"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Author = "Carl Sagan",
-                            Description = "A science book exploring the universe and our place in it.",
-                            GenreId = 4,
-                            ISBN = "9780345539434",
-                            Price = 19.00m,
-                            Title = "Cosmos"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Author = "Isaac Asimov",
-                            Description = "A sci-fi classic about the fall and rebuilding of a galactic empire.",
-                            GenreId = 5,
-                            ISBN = "9780553293357",
-                            Price = 15.00m,
-                            Title = "Foundation"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Author = "Plato",
-                            Description = "A philosophical dialogue about justice and the ideal state.",
-                            GenreId = 6,
-                            ISBN = "9780140455113",
-                            Price = 12.50m,
-                            Title = "The Republic"
                         });
                 });
 

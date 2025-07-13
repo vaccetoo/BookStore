@@ -12,10 +12,12 @@ namespace BookStore.Infrastructure.Data
 		}
 
 		public DbSet<Genre> Genres { get; set; } = null!;
+		public DbSet<Book> Books { get; set; } = null!;
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			modelBuilder.ApplyConfiguration(new GenreConfiguration());
+			modelBuilder.ApplyConfiguration(new BookConfiguration());
 
 			base.OnModelCreating(modelBuilder);
 		}
