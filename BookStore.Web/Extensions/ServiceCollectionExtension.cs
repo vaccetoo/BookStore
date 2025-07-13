@@ -13,7 +13,7 @@ namespace BookStore.Web.Extensions
 			IConfiguration configuration)
 		{
 			string connectionString = configuration.GetConnectionString("DefaultConnection") ??
-				throw new InvalidOperationException(ConnectionStringNotFound);
+				throw new InvalidOperationException(string.Format(NotFound, "DefaultConnection"));
 
 			services.AddDbContext<ApplicationDbContext>(options =>
 			{
