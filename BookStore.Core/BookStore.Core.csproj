@@ -10,8 +10,4 @@
     <ProjectReference Include="..\BookStore.Infrastructure\BookStore.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Models\Genre\" />
-  </ItemGroup>
-
 </Project>

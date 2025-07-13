@@ -1,4 +1,5 @@
 ﻿using BookStore.Core.Contracts;
+using BookStore.Core.Models.Genre;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookStore.Web.Areas.Admin.Controllers
@@ -13,9 +14,12 @@ namespace BookStore.Web.Areas.Admin.Controllers
 			_genreService = genreService;
 		}
 
+		[HttpGet]
 		public async Task<IActionResult> Index()
 		{
-			return View();
+			IEnumerable<GenreViewModel> model = await _genreService.AllGenresAsync();
+
+			return View(model);
 		}
 	}
 }
