@@ -1,4 +1,5 @@
-﻿using BookStore.Infrastructure.Data.Models;
+﻿using BookStore.Infrastructure.Data.Configuration;
+using BookStore.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookStore.Infrastructure.Data
@@ -11,5 +12,12 @@ namespace BookStore.Infrastructure.Data
 		}
 
 		public DbSet<Genre> Genres { get; set; } = null!;
+
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
+		{
+			modelBuilder.ApplyConfiguration(new GenreConfiguration());
+
+			base.OnModelCreating(modelBuilder);
+		}
 	}
 }
