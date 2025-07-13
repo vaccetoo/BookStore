@@ -1,4 +1,5 @@
-﻿using BookStore.Infrastructure.Data;
+﻿using BookStore.Infrastructure.Common.Contracts;
+using BookStore.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using static BookStore.Infrastructure.Common.Messages.ExceptionMessages;
 
@@ -16,6 +17,13 @@ namespace BookStore.Web.Extensions
 			{
 				options.UseSqlServer(connectionString);
 			});
+
+			return services;
+		}
+
+		public static IServiceCollection AddApplicationServices(this IServiceCollection services)
+		{
+			services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 			return services;
 		}
