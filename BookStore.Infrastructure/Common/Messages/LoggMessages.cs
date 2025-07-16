@@ -9,7 +9,7 @@
 		public const string NullIdSelected = "Null ID selected in '{ServiceName}' / '{MethodName}'";
 		public const string ModelIdNotFound = "'{ModelTypeName}' with ID - '{IdValue}' not found in '{ServiceName}' / '{MethodName}'";
 		public const string ModelCreatedSuccessfully = "'{ModelTypeName}' '{ModelName}' created successfully!";
-		public const string ModelUpdatedSuccessfully = "'{ModelTypeName}' '{ModelName}' updated successfully!";
+		public const string ModelUpdatedSuccessfully = "'{ModelTypeName}' '{ModelId}' updated successfully!";
 		public const string ModelDeletedSuccessfully = "'{ModelTypeName}' '{ModelName}' deleted successfully!";
 	}
 }

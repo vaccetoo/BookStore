@@ -164,7 +164,7 @@ namespace BookStore.Core.Services
 
 			_logger.LogInformation(LoggMessages.ModelUpdatedSuccessfully,
 				nameof(Genre),
-				model.Name);
+				model.Id.ToString());
 		}
 
 		public async Task<IEnumerable<GenreViewModel>> GetAllViewModelAsync()

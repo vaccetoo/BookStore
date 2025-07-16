@@ -27,6 +27,7 @@ namespace BookStore.Web.Extensions
 		{
 			services.AddScoped<IUnitOfWork, UnitOfWork>();
 			services.AddScoped<IGenreService, GenreService>();
+			services.AddScoped<IBookService, BookService>();
 
 			return services;
 		}
