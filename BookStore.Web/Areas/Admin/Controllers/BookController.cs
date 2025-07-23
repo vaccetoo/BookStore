@@ -1,7 +1,7 @@
 ﻿using BookStore.Core.Contracts;
 using BookStore.Core.Models.Book;
-using BookStore.Core.Models.Genre;
 using BookStore.Infrastructure.Common.Messages;
+using BookStore.Web.Contracts;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookStore.Web.Areas.Admin.Controllers
@@ -11,21 +11,25 @@ namespace BookStore.Web.Areas.Admin.Controllers
 	{
 		private readonly IBookService _bookService;
 		private readonly IGenreService _genreService;
+		private readonly IImageService _imageService;
 		private readonly ILogger<BookController> _logger;
 
-		public BookController(IBookService bookService,
+		public BookController(
+			IBookService bookService,
 			IGenreService genreService,
+			IImageService imageService,
 			ILogger<BookController> logger)
 		{
 			_bookService = bookService;
 			_genreService = genreService;
+			_imageService = imageService;
 			_logger = logger;
 		}
 
 		[HttpGet]
 		public async Task<IActionResult> Index()
 		{
-			IEnumerable<BookViewModel> model = await _bookService.GetAllViewModelAsync();
+			var model = await _bookService.GetAllViewModelAsync();
 
 			return View(model);
 		}
@@ -33,21 +37,21 @@ namespace BookStore.Web.Areas.Admin.Controllers
 		[HttpGet]
 		public async Task<IActionResult> Create()
 		{
-			BookCreateFormModel model = new();
-
-			model.Genres = await _genreService.GetAllViewModelAsync();
+			var model = new BookCreateFormModel
+			{
+				Genres = await _genreService.GetAllViewModelAsync()
+			};
 
 			return View(model);
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> Create(BookCreateFormModel model)
+		public async Task<IActionResult> Create(BookCreateFormModel model, IFormFile? file)
 		{
 			if (!ModelState.IsValid)
 			{
-				_logger.LogWarning(LoggMessages.InvalidModelState,
-					nameof(BookCreateFormModel),
-					nameof(BookController),
+				_logger.LogWarning(LoggMessages.InvalidModelState, 
+					nameof(BookCreateFormModel), nameof(BookController), 
 					nameof(Create));
 
 				model.Genres = await _genreService.GetAllViewModelAsync();
@@ -57,10 +61,14 @@ namespace BookStore.Web.Areas.Admin.Controllers
 
 			try
 			{
+				if (file != null && file.Length > 0)
+				{
+					model.ImageUrl = _imageService.SaveImage(file, "images/books");
+				}
+
 				await _bookService.AddBookAsync(model);
 
-				TempData["success"] = string.Format(TempDataMessages.SuccessCreated,
-					"Book");
+				TempData["success"] = string.Format(TempDataMessages.SuccessCreated, "Book");
 
 				return RedirectToAction(nameof(Index));
 			}
@@ -79,7 +87,7 @@ namespace BookStore.Web.Areas.Admin.Controllers
 		{
 			try
 			{
-				BookEditFormModel model = await _bookService.GetEditModelByIdAsync(id);
+				var model = await _bookService.GetEditModelByIdAsync(id);
 
 				model.Genres = await _genreService.GetAllViewModelAsync();
 
@@ -94,13 +102,12 @@ namespace BookStore.Web.Areas.Admin.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> Edit(BookEditFormModel model)
+		public async Task<IActionResult> Edit(BookEditFormModel model, IFormFile? file)
 		{
 			if (!ModelState.IsValid)
 			{
-				_logger.LogWarning(LoggMessages.InvalidModelState,
-					nameof(BookEditFormModel),
-					nameof(BookController),
+				_logger.LogWarning(LoggMessages.InvalidModelState, 
+					nameof(BookEditFormModel), nameof(BookController), 
 					nameof(Edit));
 
 				model.Genres = await _genreService.GetAllViewModelAsync();
@@ -110,10 +117,19 @@ namespace BookStore.Web.Areas.Admin.Controllers
 
 			try
 			{
+				if (file != null && file.Length > 0)
+				{
+					if (!string.IsNullOrWhiteSpace(model.ImageUrl))
+					{
+						_imageService.DeleteImage(model.ImageUrl);
+					}
+
+					model.ImageUrl = _imageService.SaveImage(file, "images/books");
+				}
+
 				await _bookService.EditBookAsync(model);
 
-				TempData["success"] = string.Format(TempDataMessages.SuccessUpdated,
-					"Book");
+				TempData["success"] = string.Format(TempDataMessages.SuccessUpdated, "Book");
 
 				return RedirectToAction(nameof(Index));
 			}
@@ -132,15 +148,16 @@ namespace BookStore.Web.Areas.Admin.Controllers
 		{
 			try
 			{
-				BookViewModel model = await _bookService.GetViewModelByIdAsync(id);
+				var model = await _bookService.GetViewModelByIdAsync(id);
+
 				return View(model);
 			}
 			catch (Exception ex)
 			{
 				TempData["error"] = ex.Message;
-			}
 
-			return RedirectToAction(nameof(Index));
+				return RedirectToAction(nameof(Index));
+			}
 		}
 
 		[HttpPost, ActionName("Delete")]
@@ -148,10 +165,16 @@ namespace BookStore.Web.Areas.Admin.Controllers
 		{
 			try
 			{
+				var model = await _bookService.GetViewModelByIdAsync(id);
+
+				if (!string.IsNullOrWhiteSpace(model.ImageUrl))
+				{
+					_imageService.DeleteImage(model.ImageUrl);
+				}
+
 				await _bookService.DeleteBookAsync(id);
 
-				TempData["success"] = string.Format(TempDataMessages.SuccessfullyDeleted,
-					"Book");
+				TempData["success"] = string.Format(TempDataMessages.SuccessfullyDeleted, "Book");
 
 				return RedirectToAction(nameof(Index));
 			}
@@ -159,7 +182,7 @@ namespace BookStore.Web.Areas.Admin.Controllers
 			{
 				TempData["error"] = ex.Message;
 
-				return View();
+				return RedirectToAction(nameof(Index));
 			}
 		}
 	}

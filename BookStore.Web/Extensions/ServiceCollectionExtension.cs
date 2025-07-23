@@ -2,6 +2,8 @@
 using BookStore.Core.Services;
 using BookStore.Infrastructure.Common.Contracts;
 using BookStore.Infrastructure.Data;
+using BookStore.Web.Contracts;
+using BookStore.Web.Services;
 using Microsoft.EntityFrameworkCore;
 using static BookStore.Infrastructure.Common.Messages.ExceptionMessages;
 
@@ -28,6 +30,7 @@ namespace BookStore.Web.Extensions
 			services.AddScoped<IUnitOfWork, UnitOfWork>();
 			services.AddScoped<IGenreService, GenreService>();
 			services.AddScoped<IBookService, BookService>();
+			services.AddScoped<IImageService, ImageService>();
 
 			return services;
 		}
