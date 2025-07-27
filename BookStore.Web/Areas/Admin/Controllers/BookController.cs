@@ -143,25 +143,21 @@ namespace BookStore.Web.Areas.Admin.Controllers
 			}
 		}
 
+
+
+
+		#region API CALLS
 		[HttpGet]
-		public async Task<IActionResult> Delete(int? id)
+		public async Task<IActionResult> GetAll()
 		{
-			try
-			{
-				var model = await _bookService.GetViewModelByIdAsync(id);
+			var model = await _bookService.GetAllViewModelAsync();
 
-				return View(model);
-			}
-			catch (Exception ex)
-			{
-				TempData["error"] = ex.Message;
-
-				return RedirectToAction(nameof(Index));
-			}
+			return Json(new {data = model});
 		}
 
-		[HttpPost, ActionName("Delete")]
-		public async Task<IActionResult> DeleteConfirmed(int? id)
+		[HttpDelete]		
+		
+		public async Task<IActionResult> Delete(int? id)
 		{
 			try
 			{
@@ -174,16 +170,14 @@ namespace BookStore.Web.Areas.Admin.Controllers
 
 				await _bookService.DeleteBookAsync(id);
 
-				TempData["success"] = string.Format(TempDataMessages.SuccessfullyDeleted, "Book");
-
-				return RedirectToAction(nameof(Index));
+				return Json(new { success = true, message = string.Format(TempDataMessages.SuccessfullyDeleted, "Book") });
 			}
 			catch (Exception ex)
 			{
-				TempData["error"] = ex.Message;
-
-				return RedirectToAction(nameof(Index));
+				return Json(new { success = false, message = ex.Message });
 			}
 		}
+
+		#endregion
 	}
 }
