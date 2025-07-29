@@ -4,6 +4,7 @@ using BookStore.Infrastructure.Common.Contracts;
 using BookStore.Infrastructure.Data;
 using BookStore.Web.Contracts;
 using BookStore.Web.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using static BookStore.Infrastructure.Common.Messages.ExceptionMessages;
 
@@ -31,6 +32,18 @@ namespace BookStore.Web.Extensions
 			services.AddScoped<IGenreService, GenreService>();
 			services.AddScoped<IBookService, BookService>();
 			services.AddScoped<IImageService, ImageService>();
+
+			return services;
+		}
+
+		public static IServiceCollection AddApplicationIdentity(this IServiceCollection services)
+		{
+			services.AddDefaultIdentity<IdentityUser>(options =>
+			{
+				options.SignIn.RequireConfirmedAccount = false;
+
+			})
+			.AddEntityFrameworkStores<ApplicationDbContext>();
 
 			return services;
 		}
