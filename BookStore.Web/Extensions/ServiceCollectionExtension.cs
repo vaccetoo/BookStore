@@ -5,6 +5,7 @@ using BookStore.Infrastructure.Data;
 using BookStore.Web.Contracts;
 using BookStore.Web.Services;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using static BookStore.Infrastructure.Common.Messages.ExceptionMessages;
 
@@ -32,13 +33,14 @@ namespace BookStore.Web.Extensions
 			services.AddScoped<IGenreService, GenreService>();
 			services.AddScoped<IBookService, BookService>();
 			services.AddScoped<IImageService, ImageService>();
+			services.AddScoped<IEmailSender, EmailSender>();
 
 			return services;
 		}
 
 		public static IServiceCollection AddApplicationIdentity(this IServiceCollection services)
 		{
-			services.AddDefaultIdentity<IdentityUser>(options =>
+			services.AddIdentity<IdentityUser, IdentityRole>(options =>
 			{
 				options.SignIn.RequireConfirmedAccount = false;
 
