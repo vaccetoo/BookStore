@@ -24,5 +24,18 @@
 
 		public const double BookMinPrice = 0;
 		public const double BookMaxPrice = 1_000;
+
+		// ApplicationUser Validation constants
+		public const int NameMinLength = 1;
+		public const int NameMaxLength = 75;
+
+		public const int AddressMinLength = 2;
+		public const int AddressMaxLength = 60;
+
+		public const int CityMinLength = 1;
+		public const int CityMaxLength = 80;
+
+		public const int PostCodeMinLength = 1;
+		public const int PostCodeMaxLength = 25;
 	}
 }

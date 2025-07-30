@@ -15,6 +15,7 @@ namespace BookStore.Infrastructure.Data
 
 		public DbSet<Genre> Genres { get; set; } = null!;
 		public DbSet<Book> Books { get; set; } = null!;
+		public DbSet<ApplicationUser> ApplicationUsers { get; set; } = null!;
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
