@@ -45,7 +45,8 @@ namespace BookStore.Web.Extensions
 				options.SignIn.RequireConfirmedAccount = false;
 
 			})
-			.AddEntityFrameworkStores<ApplicationDbContext>();
+			.AddEntityFrameworkStores<ApplicationDbContext>()
+			.AddDefaultTokenProviders();
 
 			return services;
 		}
