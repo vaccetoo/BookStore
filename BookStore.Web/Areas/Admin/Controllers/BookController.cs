@@ -2,11 +2,14 @@
 using BookStore.Core.Models.Book;
 using BookStore.Infrastructure.Common.Messages;
 using BookStore.Web.Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using static BookStore.Infrastructure.Common.Constants.RoleConstants;
 
 namespace BookStore.Web.Areas.Admin.Controllers
 {
 	[Area("Admin")]
+	[Authorize(Roles = RoleAdmin)]
 	public class BookController : Controller
 	{
 		private readonly IBookService _bookService;

@@ -50,5 +50,17 @@ namespace BookStore.Web.Extensions
 
 			return services;
 		}
+
+		public static IServiceCollection ConfigureApplicationCookieSettings(this IServiceCollection services)
+		{
+			services.ConfigureApplicationCookie(options =>
+			{
+				options.LoginPath = "/Identity/Account/Login";
+				options.LogoutPath = "/Identity/Account/Logout";
+				options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+			});
+
+			return services;
+		}
 	}
 }

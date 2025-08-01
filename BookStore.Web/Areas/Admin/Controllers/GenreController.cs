@@ -1,11 +1,14 @@
 ﻿using BookStore.Core.Contracts;
 using BookStore.Core.Models.Genre;
 using BookStore.Infrastructure.Common.Messages;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using static BookStore.Infrastructure.Common.Constants.RoleConstants;
 
 namespace BookStore.Web.Areas.Admin.Controllers
 {
 	[Area("Admin")]
+	[Authorize(Roles = RoleAdmin)]
 	public class GenreController : Controller
 	{
 		private readonly IGenreService _genreService;
