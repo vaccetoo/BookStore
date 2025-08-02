@@ -11,10 +11,13 @@ using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Encodings.Web;
 using static BookStore.Infrastructure.Common.Constants.RoleConstants;
+using static BookStore.Infrastructure.Common.Constants.ValidationConstants;
+using static BookStore.Infrastructure.Common.Messages.ConstraintUserMessages;
 
 namespace BookStore.Web.Areas.Identity.Pages.Account
 {
@@ -98,9 +101,36 @@ namespace BookStore.Web.Areas.Identity.Pages.Account
 			[Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
 			public string ConfirmPassword { get; set; }
 
-			public string Role { get; set; }
+			public string? Role { get; set; }
 			[ValidateNever]
 			public IEnumerable<SelectListItem> RoleList { get; set; }
+
+			[Required(ErrorMessage = RequiredMessage)]
+			[StringLength(NameMaxLength, 
+				MinimumLength = NameMinLength, 
+				ErrorMessage = StringLengthMessage)]
+			[Display(Name = "Name")]
+			public string Name { get; set; }
+
+			[StringLength(AddressMaxLength,
+				MinimumLength = AddressMinLength,
+				ErrorMessage = StringLengthMessage)]
+			public string? Address { get; set; }
+
+			[StringLength(CityMaxLength,
+				MinimumLength = CityMinLength,
+				ErrorMessage = StringLengthMessage)]
+			public string? City { get; set; }
+
+			[StringLength(PostCodeMaxLength,
+				MinimumLength = PostCodeMinLength,
+				ErrorMessage = StringLengthMessage)]
+			public string? PostCode { get; set; }
+
+			[StringLength(PhoneNumberMaxLength,
+				MinimumLength = PhoneNumberMinLength,
+				ErrorMessage = StringLengthMessage)]
+			public string? PhoneNumber { get; set; }
 		}
 
 
@@ -137,6 +167,13 @@ namespace BookStore.Web.Areas.Identity.Pages.Account
 
 				await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
 				await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+
+				user.Name = Input.Name;
+				user.City = Input.City;
+				user.Address = Input.Address;
+				user.PostCode = Input.PostCode;
+				user.PhoneNumber = Input.PhoneNumber;
+
 				var result = await _userManager.CreateAsync(user, Input.Password);
 
 				if (result.Succeeded)

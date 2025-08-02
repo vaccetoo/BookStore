@@ -37,5 +37,8 @@
 
 		public const int PostCodeMinLength = 1;
 		public const int PostCodeMaxLength = 25;
+
+		public const int PhoneNumberMinLength = 9;
+		public const int PhoneNumberMaxLength = 15;
 	}
 }
