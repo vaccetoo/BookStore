@@ -195,6 +195,50 @@ namespace BookStore.Core.Services
 				.ToListAsync();
 		}
 
+		public async Task<BookDetailsViewModel> GetDetailsViewModelByIdAsync(int? id)
+		{
+			if (id == null)
+			{
+				_logger.LogWarning(LoggMessages.NullIdSelected,
+					nameof(BookService),
+					nameof(GetDetailsViewModelByIdAsync));
+
+				throw new InvalidOperationException(string.Format(ExceptionMessages.NotFound,
+					nameof(Book)));
+			}
+
+			Book? entity = await _unitOfWork
+				.AllAsNoTracking<Book>()
+				.Include(b => b.Genre)
+				.FirstOrDefaultAsync(b => b.Id == id);
+
+			if (entity == null)
+			{
+				_logger.LogWarning(LoggMessages.ModelIdNotFound,
+					nameof(Book),
+					id.ToString(),
+					nameof(BookService),
+					nameof(GetDetailsViewModelByIdAsync));
+
+				throw new InvalidOperationException(string.Format(ExceptionMessages.NotFound,
+					nameof(Book)));
+			}
+
+			return new BookDetailsViewModel
+			{
+				Id = entity.Id,
+				Title = entity.Title,
+				Author = entity.Author,
+				Description = entity.Description,
+				ISBN = entity.ISBN,
+				Price = entity.Price,
+				ImageUrl = entity.ImageUrl,
+				GenreId = entity.GenreId,
+				Genre = entity.Genre.Name,
+				Count = 1
+			};
+		}
+
 		public async Task<BookEditFormModel> GetEditModelByIdAsync(int? id)
 		{
 			if (id == null)

@@ -11,5 +11,6 @@
 		public const string ModelCreatedSuccessfully = "'{ModelTypeName}' '{ModelName}' created successfully!";
 		public const string ModelUpdatedSuccessfully = "'{ModelTypeName}' '{ModelId}' updated successfully!";
 		public const string ModelDeletedSuccessfully = "'{ModelTypeName}' '{ModelName}' deleted successfully!";
+		public const string InvalidCountAttempt = "Attempted to add invalid count";
 	}
 }

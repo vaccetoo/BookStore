@@ -10,5 +10,6 @@ namespace BookStore.Core.Contracts
 		Task<IEnumerable<BookViewModel>> GetAllViewModelAsync();
 		Task<BookEditFormModel> GetEditModelByIdAsync(int? id);
 		Task<BookViewModel> GetViewModelByIdAsync(int? id);
+		Task<BookDetailsViewModel> GetDetailsViewModelByIdAsync(int? id);
 	}
 }

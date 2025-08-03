@@ -34,6 +34,7 @@ namespace BookStore.Web.Extensions
 			services.AddScoped<IBookService, BookService>();
 			services.AddScoped<IImageService, ImageService>();
 			services.AddScoped<IEmailSender, EmailSender>();
+			services.AddScoped<IShoppingCartService, ShoppingCartService>();
 
 			return services;
 		}
