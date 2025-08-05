@@ -12,5 +12,8 @@
 		public const string ModelUpdatedSuccessfully = "'{ModelTypeName}' '{ModelId}' updated successfully!";
 		public const string ModelDeletedSuccessfully = "'{ModelTypeName}' '{ModelName}' deleted successfully!";
 		public const string InvalidCountAttempt = "Attempted to add invalid count";
+		public const string UnexpextedError = "Unexpected error in '{ControllerName}' / '{ActionName}' !";
+		public const string CartCountUpdated = "Cart count updated successfully !";
+		public const string CartItemDeleted = "Cart item deleted successfully !";
 	}
 }

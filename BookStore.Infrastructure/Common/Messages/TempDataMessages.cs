@@ -7,6 +7,7 @@
 		public const string SuccessfullyDeleted = "{0} deleted successfully!";
 		public const string SuccessfullyAddedToCart = "Successfully added to your Cart!";
 		public const string InvalidQuantity = "Invalid quantity.";
+		public const string InvalidItem = "Invalid item.";
 
 	}
 }
